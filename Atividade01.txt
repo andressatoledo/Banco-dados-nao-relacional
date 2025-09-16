@@ -1,0 +1,30 @@
+Nome: Andressa Stéphane Toledo da Silva
+
+1. Criar uma coleção clientes uma coleção compras.
+
+db.createCollection("clientes");
+db.createCollection("compras");
+
+2.  Inserir dados usando embedding e referencing.
+
+Embedding
+
+db.clientes.insertOne({"nome": "Andressa Stephane","compras":[{"produto": "Costela de adão variegata","valor":5000},{"produto":"Headset sem fio","valor":500},{"produto":"Casa","valor:":400000}]});
+
+Referencing
+db.compras.insertOne({
+  cliente_id: db.clientes.findOne({ nome: "Andressa Stephane" })._id,
+  produto: "Roupa de cama de fios egípcios",
+  valor: 300
+});
+
+3. Consultar dados das duas formas.
+
+Embedding
+db.clientes.find({"nome":"Andressa Stephane"})
+
+Referencing
+
+db.clientes.aggregate([{$lookup:{from:"compras",localField:"_id",foreignField:"cliente_id",as:"compras_do_cliente"}}])
+
+
